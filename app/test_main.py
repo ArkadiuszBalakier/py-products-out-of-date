@@ -5,9 +5,6 @@ from unittest.mock import patch
 from app.main import outdated_products
 
 
-
-
-
 def test_outdated_products_return_list_of_expaired_products_names() -> None:
     with patch("app.main.datetime.date") as mock_date :
         mock_date.today.return_value = datetime.date(2025, 1, 1)
