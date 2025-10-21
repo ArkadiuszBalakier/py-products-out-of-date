@@ -8,7 +8,9 @@ from app.main import outdated_products
 def test_outdated_products_return_list_of_expaired_products_names() -> None:
     with patch("app.main.datetime.date") as mock_date :
         mock_date.today.return_value = datetime.date(2025, 1, 1)
-        mock_date.side_effect = lambda *args, **kwargs: datetime.date(*args, **kwargs)
+        mock_date.side_effect = (
+            lambda *args, **kwargs: datetime.date(*args, **kwargs)
+        )
         products = [
             {
                 "name": "salmon",
@@ -32,7 +34,9 @@ def test_outdated_products_return_list_of_expaired_products_names() -> None:
 def test_product_with_expiration_date_equals_today_is_not_outdated() -> None:
     with patch("app.main.datetime.date") as mock_date :
         mock_date.today.return_value = datetime.date(2022, 2, 1)
-        mock_date.side_effect = lambda *args, **kwargs: datetime.date(*args, **kwargs)
+        mock_date.side_effect = (
+            lambda *args, **kwargs: datetime.date(*args, **kwargs)
+        )
         products = [
             {
                 "name": "salmon",
