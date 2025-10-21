@@ -28,10 +28,10 @@ def test_outdated_products_return_list_of_expaired_products_names() -> None:
     with patch("app.main.datetime.date") as mock_date :
         mock_date.today.return_value = datetime.date(2025, 1, 1)
 
-    assert outdated_products(products) == ["salmon", "chicken", "duck"]
+        assert outdated_products(products) == ["salmon", "chicken", "duck"]
 
 
 def test_product_with_expiration_date_equals_today_is_not_outdated() -> None:
     with patch("app.main.datetime.date") as mock_date :
         mock_date.today.return_value = datetime.date(2022, 2, 1)
-    assert outdated_products(products) == []
+        assert outdated_products(products) == []
