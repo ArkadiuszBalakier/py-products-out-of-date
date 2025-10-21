@@ -1,5 +1,7 @@
 import datetime
-from pytest import MonkeyPatch
+from typing import List, Dict, Any
+
+import unittest.mock
 
 
 from app.main import outdated_products
@@ -7,7 +9,7 @@ from app.main import outdated_products
 
 MOCK_PATH_DATE_TODAY = "app.main.datetime.date.today"
 
-EXAMPLE_PRODUCTS = [
+EXAMPLE_PRODUCTS: List[Dict[str, Any]] = [
     {
         "name": "salmon",
         "expiration_date": datetime.date(2022, 2, 10),
@@ -26,27 +28,48 @@ EXAMPLE_PRODUCTS = [
 ]
 
 
-def test_example_scenario(monkeypatch: MonkeyPatch) -> None:
-    today_date = datetime.date(2022, 2, 2)
-    monkeypatch.setattr(MOCK_PATH_DATE_TODAY, lambda: today_date)
-    expected = ["duck"]
-    result = outdated_products(EXAMPLE_PRODUCTS)
-    assert result == expected
+class TestOutdatedProducts:
 
 
-def test_day_before_all_expired(monkeypatch: MonkeyPatch) -> None:
-    today_date = datetime.date(2022, 2, 11)
-    monkeypatch.setattr(MOCK_PATH_DATE_TODAY, lambda: today_date)
-    expected = ["salmon", "chicken", "duck"]
-    result = outdated_products(EXAMPLE_PRODUCTS)
+    @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
+    def test_example_scenario(self: object, mock_today: unittest.mock.MagicMock) -> None:
+        today_date = datetime.date(2022, 2, 2)
+        mock_today.return_value = today_date
 
-    assert result == expected
+        expected = ["duck"]
+        result = outdated_products(EXAMPLE_PRODUCTS)
+
+        assert result == expected
 
 
-def test_none_outdated(monkeypatch: MonkeyPatch) -> None:
-    today_date = datetime.date(2022, 1, 31)
-    monkeypatch.setattr(MOCK_PATH_DATE_TODAY, lambda: today_date)
-    expected = []
-    result = outdated_products(EXAMPLE_PRODUCTS)
+    @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
+    def test_day_before_all_expired(self: object, mock_today: unittest.mock.MagicMock) -> None:
+        today_date = datetime.date(2022, 2, 11)
+        mock_today.return_value = today_date
 
-    assert result == expected
+        expected = ["salmon", "chicken", "duck"]
+        result = outdated_products(EXAMPLE_PRODUCTS)
+
+        assert result == expected
+
+
+    @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
+    def test_none_outdated(self: object, mock_today: unittest.mock.MagicMock) -> None:
+        today_date = datetime.date(2022, 1, 31)
+        mock_today.return_value = today_date
+
+        expected = []
+        result = outdated_products(EXAMPLE_PRODUCTS)
+
+        assert result == expected
+
+
+    @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
+    def test_two_outdated(self: object, mock_today: unittest.mock.MagicMock) -> None:
+        today_date = datetime.date(2022, 2, 6)
+        mock_today.return_value = today_date
+
+        expected = ["chicken", "duck"]
+        result = outdated_products(EXAMPLE_PRODUCTS)
+
+        assert sorted(result) == sorted(expected)
