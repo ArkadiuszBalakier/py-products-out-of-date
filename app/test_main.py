@@ -80,4 +80,17 @@ class TestOutdatedProducts:
         expected = ["chicken", "duck"]
         result = outdated_products(EXAMPLE_PRODUCTS)
 
-        assert sorted(result) == sorted(expected)
+        assert result == expected
+
+    @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
+    def test_same_date_as_today(
+            self: object,
+            mock_today: unittest.mock.MagicMock
+    ) -> None:
+        today_date = datetime.date(2022, 2, 1)
+        mock_today.return_value = today_date
+
+        expected = []
+        result = outdated_products(EXAMPLE_PRODUCTS)
+
+        assert result == expected
