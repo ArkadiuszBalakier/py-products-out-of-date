@@ -30,9 +30,11 @@ EXAMPLE_PRODUCTS: List[Dict[str, Any]] = [
 
 class TestOutdatedProducts:
 
-
     @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
-    def test_example_scenario(self: object, mock_today: unittest.mock.MagicMock) -> None:
+    def test_example_scenario(
+            self: object,
+            mock_today: unittest.mock.MagicMock
+    ) -> None:
         today_date = datetime.date(2022, 2, 2)
         mock_today.return_value = today_date
 
@@ -41,9 +43,11 @@ class TestOutdatedProducts:
 
         assert result == expected
 
-
     @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
-    def test_day_before_all_expired(self: object, mock_today: unittest.mock.MagicMock) -> None:
+    def test_day_before_all_expired(
+            self: object,
+            mock_today: unittest.mock.MagicMock
+    ) -> None:
         today_date = datetime.date(2022, 2, 11)
         mock_today.return_value = today_date
 
@@ -52,9 +56,11 @@ class TestOutdatedProducts:
 
         assert result == expected
 
-
     @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
-    def test_none_outdated(self: object, mock_today: unittest.mock.MagicMock) -> None:
+    def test_none_outdated(
+            self: object,
+            mock_today: unittest.mock.MagicMock
+    ) -> None:
         today_date = datetime.date(2022, 1, 31)
         mock_today.return_value = today_date
 
@@ -63,9 +69,11 @@ class TestOutdatedProducts:
 
         assert result == expected
 
-
     @unittest.mock.patch(MOCK_PATH_DATE_TODAY)
-    def test_two_outdated(self: object, mock_today: unittest.mock.MagicMock) -> None:
+    def test_two_outdated(
+            self: object,
+            mock_today: unittest.mock.MagicMock
+    ) -> None:
         today_date = datetime.date(2022, 2, 6)
         mock_today.return_value = today_date
 
